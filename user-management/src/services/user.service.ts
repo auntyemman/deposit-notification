@@ -4,6 +4,7 @@ import {
   receiveMessage,
   sendMessage,
 } from "../../../shared/utils/helper/rabbitmq.service";
+import { IUser } from "../../../shared/interfaces/user.interface";
 
 export class UserService {
   private userRepository: UserRepository;

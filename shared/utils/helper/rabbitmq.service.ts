@@ -8,6 +8,9 @@ export const sendMessage = async (queue: string, message: any) => {
   channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
     persistent: true,
   });
+  setTimeout(() => {
+    connection.close();
+  }, 50000);
 };
 
 export const receiveMessage = async (

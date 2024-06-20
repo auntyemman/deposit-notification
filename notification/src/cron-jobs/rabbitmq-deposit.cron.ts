@@ -7,6 +7,7 @@ import { APIError } from "../../../shared/utils/helper/customError";
 import { NotificationService } from "../services/notification.service";
 import { IUser } from "../../../shared/interfaces/user.interface";
 
+
 export class RabbitDepositCronJob {
   private notificationService: NotificationService;
 
@@ -20,33 +21,35 @@ export class RabbitDepositCronJob {
       try {
         // Request all users
         sendMessage("getAllUsers", {});
-        let users: IUser[] = [];
 
         // Receive all users
-        await receiveMessage("getAllUsersResponse", async (msg) => {
-          users = await JSON.parse(msg.content.toString());
-        });
+        const users: IUser[] = await new Promise((resolve, reject) => {
+            let users: IUser[] = [];
+            receiveMessage("getAllUsersResponse", async (msg) => {
+              users = await JSON.parse(msg.content.toString());
+              resolve(users);
+            }).catch((err) => reject(err));
+          });
 
         const amount = 100; // Example amount to check for automated deposit
-
         for (const user of users) {
           try {
             // Request if user has sufficient funds
             sendMessage("hasSufficientFunds", { userId: user.id, amount });
 
-            let hasSufficientFunds: boolean = false;
-
             // Receive response for sufficient funds
-            await receiveMessage("hasSufficientFundsResponse", async (msg) => {
-              const response = await JSON.parse(msg.content.toString());
-              console.log("response for wallet", response);
-              if (response.userId === user.id) {
-                hasSufficientFunds = response.hasFunds;
-              }
-            });
+            const hasSufficientFunds: boolean = await new Promise((resolve, reject) => {
+                receiveMessage("hasSufficientFundsResponse", async (msg) => {
+                  const response = await JSON.parse(msg.content.toString());
+                  if (response.userId === user.id) {
+                    resolve(response.hasFunds);
+                  } else {
+                    resolve(false);
+                  }
+                }).catch((err) => reject(err));
+              });
 
             if (!hasSufficientFunds) {
-              console.log("has balance", user);
               await this.notificationService.sendNotification(user, amount);
             }
           } catch (error) {
