@@ -46,7 +46,7 @@ export class RabbitDepositCronJob {
             });
 
             if (!hasSufficientFunds) {
-                console.log("has balance", user);
+              console.log("has balance", user);
               await this.notificationService.sendNotification(user, amount);
             }
           } catch (error) {
