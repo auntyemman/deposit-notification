@@ -21,7 +21,6 @@ export class WalletService {
 
   startListening() {
     receiveMessage("hasSufficientFunds", async (msg) => {
-      console.log("Message received: ", msg.content.toString());
       const { userId, amount } = JSON.parse(msg.content.toString());
       const hasFunds = await this.hasSufficientFunds(userId, amount);
       sendMessage("hasSufficientFundsResponse", { userId, hasFunds });

@@ -113,6 +113,5 @@ Handles wallet operations and checks if users have sufficient funds.
 A custom error file was created in the shared folder and an error handler middleware was used across the services
 
 ### Additional Features and Improvements
-1. Implementing the Rabbitmq with correlationId instead of sending and waiting to recieve response.
-2. Authentication and Authorization to make request and communication secure.
-3. Persist the user data in Postgres or Mongodb database for close control.
+1. Implementing the Rabbitmq to decouple the communication between services.
+2. Implemtent DDD for for testability and maintainability

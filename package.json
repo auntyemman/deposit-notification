@@ -8,7 +8,6 @@
     "dev:user-wallet": "nodemon user-wallet/src/server.ts",
     "dev:user-management": "nodemon user-management/src/server.ts",
     "dev": "concurrently \"yarn dev:notification\" \"yarn dev:user-wallet\" \"yarn dev:user-management\"",
-
     "build": "rimraf dist && tsc",
     "start:pre": "ts-node src/server.ts",
     "start": "node dist/server.js",
@@ -35,6 +34,7 @@
     "nodemailer": "^6.9.14",
     "reflect-metadata": "^0.2.1",
     "twilio": "^5.2.0",
+    "typeorm": "^0.3.20",
     "winston": "^3.13.0"
   },
   "devDependencies": {
