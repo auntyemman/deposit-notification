@@ -32,9 +32,10 @@ export class RabbitDepositCronJob {
 
         const amount = 100; // Example amount to check for automated deposit
         for (const user of users) {
+          console.log(user);
           try {
             // Request if user has sufficient funds
-            sendMessage("hasSufficientFunds", { userId: user.id, amount });
+            sendMessage("hasSufficientFunds", { userId: user._id, amount });
 
             // Receive response for sufficient funds
             const hasSufficientFunds: boolean = await new Promise(

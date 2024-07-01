@@ -12,7 +12,7 @@ export class WalletService {
   }
 
   async hasSufficientFunds(userId: string, amount: number): Promise<boolean> {
-    const user = this.userService.getUserById(userId);
+    const user = await this.userService.getUserById(userId);
     if (!user) {
       throw new NotFoundError("User not found");
     }

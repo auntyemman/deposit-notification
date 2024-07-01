@@ -6,7 +6,7 @@ import "reflect-metadata";
 import cookieParser from "cookie-parser";
 
 import { errorHandler } from "../../shared/utils/middlewares/errorHandler";
-// import { router } from "./routes/index.routes";
+import { router } from "./routes/user.routes";
 
 config();
 
@@ -47,7 +47,7 @@ export class App {
   }
 
   private setupRoutes() {
-    // this.app.use("/v1", router);
+    this.app.use("/v1", router);
     this.app.get("/", (req: Request, res: Response) => {
       return res.status(200).send("Hello, Stackivy!");
     });

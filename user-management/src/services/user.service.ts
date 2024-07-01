@@ -13,13 +13,41 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
-  getUserById(userId: string): User | undefined {
-    return this.userRepository.findById(userId);
+  public async getAllUsers(): Promise<IUser[]> {
+    return this.userRepository.findAll();
   }
 
-  getAllUsers(): User[] {
-    return this.userRepository.getAll();
+  public async createUser(user: IUser): Promise<IUser> {
+    return this.userRepository.create(user);
   }
+
+  public async getUserById(id: string): Promise<any> {
+    return this.userRepository.findById(id);
+  }
+
+  public async updateUser(
+    id: string,
+    user: Partial<IUser>,
+  ): Promise<IUser | null> {
+    return this.userRepository.update(id, user);
+  }
+
+  public async deleteUser(id: string): Promise<IUser | null> {
+    return this.userRepository.delete(id);
+  }
+  // private userRepository: UserRepository;
+
+  // constructor() {
+  //   this.userRepository = new UserRepository();
+  // }
+
+  // getUserById(userId: string): User | undefined {
+  //   return this.userRepository.findById(userId);
+  // }
+
+  // getAllUsers(): User[] {
+  //   return this.userRepository.getAll();
+  // }
 
   startListening() {
     receiveMessage("getAllUsers", async () => {
